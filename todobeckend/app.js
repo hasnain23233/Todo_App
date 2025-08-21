@@ -4,10 +4,12 @@ const ListRouter = require('./router/listRouter')
 const mongoose = require('mongoose')
 const { errorhandle } = require('./controller/listController')
 require('dotenv').config()
+const bodyParser = require('body-parser')
 
 const mongoLink = process.env.MONGO_URL
 
 
+app.use(bodyParser.urlencoded({ extended: true }))
 app.use(ListRouter)
 app.use(errorhandle)
 

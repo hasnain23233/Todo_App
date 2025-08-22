@@ -5,14 +5,15 @@ const mongoose = require('mongoose')
 const { errorhandle } = require('./controller/error')
 require('dotenv').config()
 const bodyParser = require('body-parser')
-const core = require('crypto')
+const cors = require('cors')
 
 const mongoLink = process.env.MONGO_URL
 
 
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(express.json())
-app.use(ListRouter)
+app.use(cors())
+app.use('/api/todo', ListRouter)
 app.use(errorhandle)
 
 mongoose.connect(mongoLink).then(() => {

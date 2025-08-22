@@ -1,25 +1,40 @@
 const TodoItem = require('../model/todoItemModel')
 
-exports.getAllTask = (req, res, next) => {
+// Get all todos
+exports.getAllTask = async (req, res, next) => {
     try {
-        TodoItem.find().then((data) => {
-            console.log('your data was found', data)
-            res.status(200).json(data)
-        })
+        const data = await TodoItem.find().sort({ createdAt: -1 }) // ✅ latest first
+        res.status(200).json(data)
     } catch (error) {
-        console.log('Sorry we can not get your data try again !!!', error.message)
+        console.log('Error fetching todos:', error.message)
+        res.status(500).json({ message: 'Error fetching todos' })
     }
 }
 
+// Add new todo
 exports.postList = async (req, res, next) => {
-    console.log(req.body)
     try {
         const { task, date } = req.body
-        const todoItem = await new TodoItem({ task, date })
-        const itemeSave = await todoItem.save()
-        console.log('your data was saved ', itemeSave)
-        res.status(200).json(itemeSave)
+        const todoItem = new TodoItem({ task, date })
+        const itemSaved = await todoItem.save()
+        res.status(201).json(itemSaved) // ✅ correct status
     } catch (error) {
-        console.log('Sorry we can not save your data try again !!!', error.message)
+        console.log('Error saving todo:', error.message)
+        res.status(500).json({ message: 'Error saving todo' })
+    }
+}
+
+// Delete todo by ID
+exports.deleteList = async (req, res, next) => {
+    try {
+        const { id } = req.params
+        const deleted = await TodoItem.findByIdAndDelete(id)
+        if (!deleted) {
+            return res.status(404).json({ message: 'Item not found' }) // ✅ handle missing id
+        }
+        res.status(200).json({ message: 'Item deleted', id })
+    } catch (error) {
+        console.log('Error deleting todo:', error.message)
+        res.status(500).json({ message: 'Error deleting todo' })
     }
 }

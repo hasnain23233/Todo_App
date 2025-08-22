@@ -4,25 +4,26 @@ const ListRouter = require('./router/todoItemRouter')
 const mongoose = require('mongoose')
 const { errorhandle } = require('./controller/error')
 require('dotenv').config()
-const bodyParser = require('body-parser')
 const cors = require('cors')
 
 const mongoLink = process.env.MONGO_URL
 
-
-app.use(bodyParser.urlencoded({ extended: true }))
+// Middleware
 app.use(express.json())
-app.use(cors({
-    origin: "http://localhost:5173"
-}))
+app.use(cors({ origin: "http://localhost:5173" }))
+
+// Routes
 app.use('/api/todo', ListRouter)
 app.use(errorhandle)
 
-mongoose.connect(mongoLink, { dbName: 'ToDoApp' }).then(() => {
-    console.log('connecting to the database of the website')
-    app.listen(4200, () => {
-        console.log('Server side running on the http://localhost:4200 check it')
+// DB connect
+mongoose.connect(mongoLink, { dbName: 'ToDoApp' })
+    .then(() => {
+        console.log('✅ Connected to MongoDB')
+        app.listen(4200, () => {
+            console.log('🚀 Server running on http://localhost:4200')
+        })
     })
-}).catch(() => {
-    console.log('sorry we couldn`t connect to the database of your application check it and try aging')
-})
+    .catch(() => {
+        console.log('❌ Could not connect to MongoDB, check your config')
+    })

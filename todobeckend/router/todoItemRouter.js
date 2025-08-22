@@ -5,4 +5,6 @@ const listController = require('../controller/todoItemController')
 router.get('/', listController.getAllTask)
 router.post('/', listController.postList)
 
+router.delete('/:id', listController.deleteList)
+
 module.exports = router

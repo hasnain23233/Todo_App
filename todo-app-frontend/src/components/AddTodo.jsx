@@ -1,21 +1,29 @@
 import React, { useState } from "react";
 import { savingTodo } from "../Servieces/itemeServices";
-function AddTodo() {
+
+function AddTodo({ setTodos }) {
   const [value, setvalue] = useState({
-    task: '',
-    date: ''
+    task: "",
+    date: "",
   });
+
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const itemsSaving = await savingTodo(value.task, value.date);
-    console.log('Item saved:', itemsSaving);
-    setvalue({ task: '', date: '' });
+    const newTodo = await savingTodo(value.task, value.date);
+
+    // Frontend state update (without reload)
+    setTodos((prev) => [...prev, newTodo]);
+
+    setvalue({ task: "", date: "" });
   };
 
   return (
     <div className="max-w-4xl mx-auto px-4 text-center">
-      <form method="post" onSubmit={handleSubmit} className="flex items-center justify-between gap-4 py-3">
-        {/* Todo input */}
+      <form
+        method="post"
+        onSubmit={handleSubmit}
+        className="flex items-center justify-between gap-4 py-3"
+      >
         <div className="w-1/2">
           <input
             type="text"
@@ -27,7 +35,6 @@ function AddTodo() {
           />
         </div>
 
-        {/* Date input */}
         <div className="w-1/3">
           <input
             type="date"
@@ -38,7 +45,6 @@ function AddTodo() {
           />
         </div>
 
-        {/* Button */}
         <div className="w-1/6 text-right">
           <button
             type="submit"

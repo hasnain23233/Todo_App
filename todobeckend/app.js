@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const ListRouter = require('./router/todoItemRouter')
 const mongoose = require('mongoose')
-const { errorhandle } = require('./controller/todoItemController')
+const { errorhandle } = require('./controller/error')
 require('dotenv').config()
 const bodyParser = require('body-parser')
 

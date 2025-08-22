@@ -3,5 +3,6 @@ const router = express.Router()
 const listController = require('../controller/todoItemController')
 
 router.get('/', listController.getListItems)
+router.post('/', listController.postList)
 
 module.exports = router

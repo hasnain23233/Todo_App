@@ -10,7 +10,7 @@ const todoItemSchema = mongoose.Schema({
         type: Boolean,
         default: false
     },
-    timestamp: true
+    timestamp: { type: Date, default: Date.now }
 })
 
-module.exports = mongoose.model("todoItem", todoItemSchema)
+module.exports = mongoose.model("todoItem", todoItemSchema) 

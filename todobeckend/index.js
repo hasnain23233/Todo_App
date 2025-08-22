@@ -5,11 +5,13 @@ const mongoose = require('mongoose')
 const { errorhandle } = require('./controller/error')
 require('dotenv').config()
 const bodyParser = require('body-parser')
+const core = require('crypto')
 
 const mongoLink = process.env.MONGO_URL
 
 
 app.use(bodyParser.urlencoded({ extended: true }))
+app.use(express.json())
 app.use(ListRouter)
 app.use(errorhandle)
 

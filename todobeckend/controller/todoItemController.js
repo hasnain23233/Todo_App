@@ -38,3 +38,25 @@ exports.deleteList = async (req, res, next) => {
         res.status(500).json({ message: 'Error deleting todo' })
     }
 }
+
+// Update todo by ID
+exports.updateList = async (req, res) => {
+    try {
+        const { task, date, completed } = req.body;
+
+        const updated = await TodoItem.findByIdAndUpdate(
+            req.params.id,
+            { task, date, completed },
+            { new: true, runValidators: true }
+        );
+
+        if (!updated) {
+            return res.status(404).json({ message: "Todo not found" });
+        }
+
+        res.status(200).json(updated);
+    } catch (err) {
+        console.error("Error updating todo:", err.message);
+        res.status(500).json({ message: "Error updating todo", error: err.message });
+    }
+};

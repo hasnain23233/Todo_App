@@ -6,6 +6,10 @@ const todoItemSchema = new mongoose.Schema({
         required: true
     },
     date: Date,
+    completed: {
+        type: Boolean,
+        default: false
+    }
 }, { timestamps: true });
 
 module.exports = mongoose.model("todoItem", todoItemSchema)

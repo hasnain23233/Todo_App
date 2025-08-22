@@ -1,7 +1,14 @@
 const TodoItem = require('../model/todoItemModel')
 
-exports.getListItems = (req, res, next) => {
-    res.send('This request from controller of the website')
+exports.getAllTask = (req, res, next) => {
+    try {
+        TodoItem.find().then((data) => {
+            console.log('your data was found', data)
+            res.status(200).json(data)
+        })
+    } catch (error) {
+        console.log('Sorry we can not get your data try again !!!', error.message)
+    }
 }
 
 exports.postList = async (req, res, next) => {

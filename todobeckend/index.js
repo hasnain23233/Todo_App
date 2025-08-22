@@ -18,7 +18,7 @@ app.use(cors({
 app.use('/api/todo', ListRouter)
 app.use(errorhandle)
 
-mongoose.connect(mongoLink).then(() => {
+mongoose.connect(mongoLink, { dbName: 'ToDoApp' }).then(() => {
     console.log('connecting to the database of the website')
     app.listen(4200, () => {
         console.log('Server side running on the http://localhost:4200 check it')
